@@ -35,7 +35,7 @@ function App() {
                 </tr>
                 {tasks.map((item) => (
                   <tr>
-                    <td>1</td>
+                    <td>{item.id}</td>
                     <td>{item.description}</td>
                     <td>{item.status}</td>
                   </tr>
