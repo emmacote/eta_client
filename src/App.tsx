@@ -3,8 +3,14 @@ import { Component } from "react";
 import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 
+type Task = {
+  id: number;
+  description: string;
+  status: string;
+};
+
 function App() {
-  let [tasks, setTasks] = useState([]);
+  let [tasks, setTasks] = useState<Task[]>([]);
 
   useEffect(() => {
     const url = "http://127.0.0.1:5001/tasks";
@@ -34,7 +40,7 @@ function App() {
                   <th>Completion Status</th>
                 </tr>
                 {tasks.map((item) => (
-                  <tr>
+                  <tr key={item.id}>
                     <td>{item.id}</td>
                     <td>{item.description}</td>
                     <td>{item.status}</td>
