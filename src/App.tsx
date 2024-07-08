@@ -19,11 +19,7 @@ function App() {
         return res.json();
       })
       .then((data) => {
-        data.tasks.map((t) => {
-          console.log(t);
-          setTasks(data.tasks);
-          console.log("tasks supposedly have been set.");
-        });
+        setTasks(data.tasks);
       });
   }, []);
 
