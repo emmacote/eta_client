@@ -1,5 +1,6 @@
 import TodoTask from "./TodoTask";
 import { Component } from "react";
+import { MouseEvent } from "react";
 import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -23,6 +24,26 @@ function App() {
       });
   }, []);
 
+  const handleClick = (evt: Event) => {
+    console.log("click happens...");
+  };
+
+  const deleteClickGenerator = (n: Number) => {
+    const mouseClickHandler = (e: MouseEvent) => {
+      const urlString = "http://127.0.0.1:5001/deletetask/" + n;
+
+      fetch(urlString, { method: "DELETE" })
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          console.log("ID of task deleted: " + n);
+        });
+    };
+
+    return mouseClickHandler;
+  };
+
   return (
     <>
       <div className="container">
@@ -34,12 +55,21 @@ function App() {
                   <th>ID</th>
                   <th>Task</th>
                   <th>Completion Status</th>
+                  <th>&nbsp;</th>
                 </tr>
                 {tasks.map((item) => (
                   <tr key={item.id}>
                     <td>{item.id}</td>
                     <td>{item.description}</td>
                     <td>{item.status}</td>
+                    <td>
+                      <button
+                        className="btn btn-danger"
+                        onClick={deleteClickGenerator(item.id)}
+                      >
+                        Delete
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
