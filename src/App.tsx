@@ -13,7 +13,7 @@ type Task = {
 function App() {
   let [tasks, setTasks] = useState<Task[]>([]);
 
-  useEffect(() => {
+  const refreshTaskList = () => {
     const url = "http://127.0.0.1:5001/tasks";
     fetch(url)
       .then((res) => {
@@ -22,6 +22,10 @@ function App() {
       .then((data) => {
         setTasks(data.tasks);
       });
+  };
+
+  useEffect(() => {
+    refreshTaskList();
   }, []);
 
   const handleClick = (evt: Event) => {
@@ -37,14 +41,7 @@ function App() {
           return res.json();
         })
         .then((data) => {
-          console.log("ID of task deleted: " + n);
-          fetch("http://127.0.0.1:5001/tasks")
-            .then((res) => {
-              return res.json();
-            })
-            .then((data) => {
-              setTasks(data.tasks);
-            });
+          refreshTaskList();
         });
     };
 
