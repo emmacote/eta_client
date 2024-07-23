@@ -38,6 +38,13 @@ function App() {
         })
         .then((data) => {
           console.log("ID of task deleted: " + n);
+          fetch("http://127.0.0.1:5001/tasks")
+            .then((res) => {
+              return res.json();
+            })
+            .then((data) => {
+              setTasks(data.tasks);
+            });
         });
     };
 
