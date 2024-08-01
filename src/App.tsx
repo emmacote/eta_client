@@ -34,9 +34,17 @@ function App() {
 
   const deleteClickGenerator = (n: Number) => {
     const mouseClickHandler = (e: MouseEvent) => {
-      const urlString = "http://127.0.0.1:5001/deletetask/" + n;
+      const urlString = "http://127.0.0.1:5001/deletetask/";
 
-      fetch(urlString, { method: "DELETE" })
+      const options = {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ taskid: n }),
+      };
+
+      fetch(urlString, options)
         .then((res) => {
           return res.json();
         })
