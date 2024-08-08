@@ -1,6 +1,7 @@
 import TodoTask from "./TodoTask";
 import { Component } from "react";
 import { MouseEvent } from "react";
+import { ChangeEvent } from "react";
 import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 
@@ -11,6 +12,8 @@ type Task = {
 };
 
 function App() {
+  const [newTask, setNewTask] = useState("");
+
   let [tasks, setTasks] = useState<Task[]>([]);
 
   const refreshTaskList = () => {
@@ -28,7 +31,7 @@ function App() {
     refreshTaskList();
   }, []);
 
-  const handleClick = (evt: Event) => {
+  const handleClick = (evt: MouseEvent) => {
     console.log("click happens...");
   };
 
@@ -56,9 +59,67 @@ function App() {
     return mouseClickHandler;
   };
 
+  const addTaskClickHandler = (e: MouseEvent) => {
+    const urlString = "http://127.0.0.1:5001/addtask";
+
+    const json_data = {
+      task_name: newTask,
+      completion_status: "not yet completed",
+    };
+
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(json_data),
+    };
+
+    fetch(urlString, options)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        refreshTaskList();
+      });
+  };
+
+  const tfTaskChange = (e: ChangeEvent) => {
+    setNewTask(e.target.value);
+  };
+
   return (
     <>
       <div className="container">
+        <div className="row">
+          <div className="col-xs-12">
+            <div className="form-group">
+              <label for="tfNewTask">
+                <b>New Task: </b>
+              </label>
+              <input
+                type="text"
+                name="tfNewTask"
+                id="tfnewTask"
+                value={newTask}
+                onChange={tfTaskChange}
+              />
+              &nbsp;
+              <button
+                id="btnAddTask"
+                className="btn btn-primary"
+                onClick={addTaskClickHandler}
+              >
+                Add Task
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-xs-12">
+            <br />
+          </div>
+        </div>
         <div className="row">
           <div className="col-xs-12">
             <table className="table table-striped">
