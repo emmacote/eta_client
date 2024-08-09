@@ -14,7 +14,7 @@ type Task = {
 function App() {
   const [newTask, setNewTask] = useState("");
 
-  let [tasks, setTasks] = useState<Task[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
 
   const refreshTaskList = () => {
     const url = "http://127.0.0.1:5001/tasks";
@@ -31,10 +31,10 @@ function App() {
     refreshTaskList();
   }, []);
 
-  const handleClick = (evt: MouseEvent) => {
-    console.log("click happens...");
-  };
-
+  // curried mouse click handlers set up so each delete button tied to the
+  // task id of the task we want to delete. Then the generated mouse click handler
+  // can pass in the proper id via json, have that task deleted from the db, and
+  // then pull down the updated list of tasks.
   const deleteClickGenerator = (n: Number) => {
     const mouseClickHandler = (e: MouseEvent) => {
       const urlString = "http://127.0.0.1:5001/deletetask/";
@@ -59,6 +59,8 @@ function App() {
     return mouseClickHandler;
   };
 
+  // Take the new task from the new task textfield and pass it in json style to update
+  // the database. Then refresh the list of tasks by pulling down the task list from the db.
   const addTaskClickHandler = (e: MouseEvent) => {
     const urlString = "http://127.0.0.1:5001/addtask";
 
@@ -84,9 +86,8 @@ function App() {
       });
   };
 
-  const tfTaskChange = (e: ChangeEvent) => {
-    // TODO: Property "value" does not exists on type "EventTarget & Element"
-    // It technically works but it probably does need to be fixed at some point.
+  // Enable updates on the bound form input when new characters types into the new task input textfield.
+  const tfTaskChange = (e: ChangeEvent<HTMLInputElement>) => {
     setNewTask(e.target.value);
   };
 
