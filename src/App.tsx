@@ -7,7 +7,7 @@ import "bootstrap/dist/css/bootstrap.css";
 
 type Task = {
   id: number;
-  last_update: string;
+  last_update: Date;
   description: string;
   status: string;
 };
@@ -138,7 +138,7 @@ function App() {
                 {tasks.map((item) => (
                   <tr key={item.id}>
                     <td>{item.id}</td>
-                    <td>{item.last_update}</td>
+                    <td>{item.last_update.toString()}</td>
                     <td>{item.description}</td>
                     <td>{item.status}</td>
                     <td>
