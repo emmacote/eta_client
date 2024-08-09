@@ -85,6 +85,8 @@ function App() {
   };
 
   const tfTaskChange = (e: ChangeEvent) => {
+    // TODO: Property "value" does not exists on type "EventTarget & Element"
+    // It technically works but it probably does need to be fixed at some point.
     setNewTask(e.target.value);
   };
 
@@ -94,7 +96,7 @@ function App() {
         <div className="row">
           <div className="col-xs-12">
             <div className="form-group">
-              <label for="tfNewTask">
+              <label htmlFor="tfNewTask">
                 <b>New Task: </b>
               </label>
               <input
